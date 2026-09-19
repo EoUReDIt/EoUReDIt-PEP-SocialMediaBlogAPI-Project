@@ -55,10 +55,6 @@ public class AccountService {
      *  - username must exist
      *  - password must match exactly
      *
-     * Design note: the Controller maps "invalid" here to 401, not 400 — but
-     * this method doesn't need to know about HTTP status codes at all. It
-     * should just return null on failure and let the Controller decide what
-     * that means.
      *
      * @return the matching Account if credentials are correct, otherwise null.
      */

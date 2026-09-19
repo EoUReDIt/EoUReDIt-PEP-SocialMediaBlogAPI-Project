@@ -115,7 +115,7 @@ public class MessageDAO {
             }
 
             // TODO 6: Step 2 — now run the DELETE with a WHERE message_id = ? clause.
-            String sql = "DELETE * FROM message WHERE message_id = ?";
+            String sql = "DELETE FROM message WHERE message_id = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, messageId);
             preparedStatement.executeUpdate();
