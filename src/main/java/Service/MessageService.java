@@ -124,6 +124,6 @@ public class MessageService {
     public List<Message> getMessagesByAccountId(int accountId) {
         // TODO 6: one line — delegate to the DAO.
 
-        return new MessageDAO().getAllMessages();
+        return messageDAO.getMessagesByAccountId(accountId);
     }
 }
