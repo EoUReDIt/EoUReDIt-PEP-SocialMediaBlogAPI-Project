@@ -68,7 +68,7 @@ public class AccountService {
         // TODO 4: two conditions need to both be true to succeed:
         // (a) the account exists, and (b) its stored password matches the
         // password provided in `credentials`. Write the combined check.
-        if (existingAccount == null || existingAccount.getFields()) {
+        if (existingAccount == null || existingAccount.getPassword().equals(credentials.getPassword())) {
             return null;
         }
         return existingAccount;

@@ -32,21 +32,21 @@ public class MessageService {
      * @return the persisted Message if valid, otherwise null.
      */
     public Message createMessage(Message message) {
-        // TODO 1: blank-text check.
-        if (message.getMessage_text() == null || ___________________________) {
+         // TODO 1: blank-text check.
+        if (message.getMessage_text() == null || message.getMessage_text().isBlank()) {
             return null;
         }
 
-        // TODO 2: length check. Careful with the boundary: "under 255" means
-        // 255 itself is INVALID. Which comparison operator enforces that
-        // exactly (not >=, not >)?
-        if (message.getMessage_text().length() ______ 255) {
+        // TODO 2: length check.
+        // 255 itself is INVALID.
+        if (message.getMessage_text().length() < 255) {
             return null;
         }
 
-        // TODO 3: does the posted_by account exist? You already wrote the DAO
+
+        // TODO 3: does the posted_by account exist?
         // method for this in AccountDAO — reuse it here via `accountDAO`.
-        if (accountDAO._____________________________(message.getPosted_by()) == null) {
+        if (accountDAO.getAccountById(message.getPosted_by()) == null) {
             return null;
         }
 
@@ -54,8 +54,10 @@ public class MessageService {
     }
 
     /**
-     * @return every message. This one has essentially no business rules —
-     * think about why: is there any way this request could be "invalid"?
+     * @return every message. 
+     * 
+     * 
+     * 
      */
     public List<Message> getAllMessages() {
         return messageDAO.getAllMessages();
@@ -67,8 +69,9 @@ public class MessageService {
      * the Controller returns 200 either way for this endpoint.)
      */
     public Message getMessageById(int messageId) {
-        // TODO 4: one line — delegate to the DAO.
-        return ___________________________________;
+        // TODO 4: delegate to the DAO.
+
+        return messageDAO.getMessageById(messageId);
     }
 
     /**
@@ -86,18 +89,31 @@ public class MessageService {
      *  - the new text must not be blank
      *  - the new text must be under 255 characters
      *
-     * Design question: this method needs to check "does the message exist"
-     * BEFORE updating. Which DAO call from MessageDAO lets you check that,
-     * and should you call it here in the Service, or trust MessageDAO's
-     * updateMessageText to already return null on a missing id? Either design
-     * can work — pick one and be able to explain why.
-     *
      * @return the updated Message if valid, otherwise null.
      */
     public Message updateMessageText(int messageId, String newText) {
         // TODO 5: implement all three validation rules above, then call
         // messageDAO.updateMessageText(...) only if they all pass.
-        return null;
+
+        // TODO 1: blank-text check.
+        if (newText == null || newText.isBlank()) {
+            return null;
+        }
+
+        // TODO 2: length check.
+        // 255 itself is INVALID.
+        if (newText.length() < 255) {
+            return null;
+        }
+
+
+        // TODO 3: messageID exist
+        if (messageDAO.getMessageById(messageId) == null) {
+            return null;
+        }
+
+        //update action
+        return messageDAO.updateMessageText(messageId, newText);
     }
 
     /**
@@ -107,6 +123,7 @@ public class MessageService {
      */
     public List<Message> getMessagesByAccountId(int accountId) {
         // TODO 6: one line — delegate to the DAO.
-        return ___________________________________;
+
+        return new MessageDAO().getAllMessages();
     }
 }
