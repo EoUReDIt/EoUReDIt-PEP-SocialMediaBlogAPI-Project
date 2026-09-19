@@ -102,7 +102,7 @@ public class MessageService {
 
         // TODO 2: length check.
         // 255 itself is INVALID.
-        if (newText.length() < 255) {
+        if (newText.length() > 255) {
             return null;
         }
 

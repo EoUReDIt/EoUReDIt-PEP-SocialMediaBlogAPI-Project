@@ -85,7 +85,8 @@ public class MessageDAO {
             ResultSet rs = preparedStatement.executeQuery();
 
             if(rs.next()){
-                return new Message(rs.getInt("posted_by"),
+                return new Message(rs.getInt("message_id"),
+                                    rs.getInt("posted_by"),
                                     rs.getString("message_text"),
                                     rs.getLong("time_posted_epoch")
                 ); 
@@ -114,7 +115,7 @@ public class MessageDAO {
             }
 
             // TODO 6: Step 2 — now run the DELETE with a WHERE message_id = ? clause.
-            String sql = "SELECT * FROM message WHERE message_id = ?";
+            String sql = "DELETE * FROM message WHERE message_id = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, messageId);
             preparedStatement.executeUpdate();
@@ -167,7 +168,18 @@ public class MessageDAO {
             String sql = "SELECT * FROM message WHERE posted_by = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, accountId);
-            preparedStatement.executeUpdate();
+            
+            ResultSet rs = preparedStatement.executeQuery();
+
+            // 2. Loop through the results just like in getAllMessages()
+            while (rs.next()) {
+                messages.add(new Message(
+                        rs.getInt("message_id"),
+                        rs.getInt("posted_by"),
+                        rs.getString("message_text"),
+                        rs.getLong("time_posted_epoch")
+                ));
+            }
 
         } catch (SQLException e) {
             e.printStackTrace();
